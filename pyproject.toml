@@ -1,41 +1,48 @@
 [project]
 name = "sber-gigaamv3-local"
 version = "0.1.0"
-description = ""
+description = "Local runner for GigaAM v3"
 authors = [
-    {name = "shorins",email = "mighty.shorin@yandex.ru"}
+    {name = "shorins", email = "mighty.shorin@yandex.ru"}
 ]
 readme = "README.md"
 requires-python = ">=3.10,<3.12"
-dependencies = [
-    "transformers==4.57.1",
-    "pyannote-audio==4.0.0",
-    "torchcodec==0.7.0",
-    "gigaam @ git+https://github.com/salute-developers/GigaAM.git",
-    "tqdm",
-    "python-dotenv",
-    "dotenv (>=0.9.9,<0.10.0)"
-]
 
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [{include = "sber_gigaamv3_local", from = "src"}]
+
+# --- Переносим все зависимости сюда для корректной работы маркеров ---
 [tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+transformers = "4.57.1"
+pyannote-audio = "4.0.0"
+torchcodec = "0.7.0"
+tqdm = "*"
+python-dotenv = "*"
+# Git-зависимость
+gigaam = {git = "https://github.com/salute-developers/GigaAM.git"}
+
+# Настройка PyTorch для разных платформ
+# Для macOS (Apple Silicon) берем из PyPI (там по умолчанию есть поддержка MPS)
 torch = [
     {version = "2.8.0", markers = "sys_platform == 'darwin'"},
     {version = "2.8.0", markers = "sys_platform != 'darwin'", source = "pytorch_cuda"}
 ]
+
 torchaudio = [
     {version = "2.8.0", markers = "sys_platform == 'darwin'"},
     {version = "2.8.0", markers = "sys_platform != 'darwin'", source = "pytorch_cuda"}
 ]
 
+# --- Источники ---
 
 [[tool.poetry.source]]
 name = "pytorch_cuda"
 url = "https://download.pytorch.org/whl/cu124"
-priority = "explicit"
-
-[tool.poetry]
-packages = [{include = "sber_gigaamv3_local", from = "src"}]
-
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+# Меняем priority на "supplemental" или "priority" (в старых версиях secondary). 
+# "explicit" слишком строгий и может ломать разрешение транзитивных зависимостей на Windows.
+priority = "supplemental"
