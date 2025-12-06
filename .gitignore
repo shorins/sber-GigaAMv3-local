@@ -1,0 +1,7 @@
+models_cache
+__pycache__
+.DS_Store
+
+.env
+test_audio
+test_audio_transcriptions.jsonl

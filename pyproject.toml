@@ -1,0 +1,27 @@
+[project]
+name = "sber-gigaamv3-local"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "shorins",email = "mighty.shorin@yandex.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+dependencies = [
+    "torch==2.8.0",
+    "torchaudio==2.8.0",
+    "transformers==4.57.1",
+    "pyannote-audio==4.0.0",
+    "torchcodec==0.7.0",
+    "gigaam @ git+https://github.com/salute-developers/GigaAM.git",
+    "tqdm",
+    "python-dotenv",
+    "dotenv (>=0.9.9,<0.10.0)"
+]
+
+[tool.poetry]
+packages = [{include = "sber_gigaamv3_local", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
