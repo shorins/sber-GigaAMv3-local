@@ -8,8 +8,6 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.10,<3.12"
 dependencies = [
-    "torch==2.8.0",
-    "torchaudio==2.8.0",
     "transformers==4.57.1",
     "pyannote-audio==4.0.0",
     "torchcodec==0.7.0",
@@ -18,6 +16,22 @@ dependencies = [
     "python-dotenv",
     "dotenv (>=0.9.9,<0.10.0)"
 ]
+
+[tool.poetry.dependencies]
+torch = [
+    {version = "2.8.0", markers = "sys_platform == 'darwin'"},
+    {version = "2.8.0", markers = "sys_platform != 'darwin'", source = "pytorch_cuda"}
+]
+torchaudio = [
+    {version = "2.8.0", markers = "sys_platform == 'darwin'"},
+    {version = "2.8.0", markers = "sys_platform != 'darwin'", source = "pytorch_cuda"}
+]
+
+
+[[tool.poetry.source]]
+name = "pytorch_cuda"
+url = "https://download.pytorch.org/whl/cu124"
+priority = "explicit"
 
 [tool.poetry]
 packages = [{include = "sber_gigaamv3_local", from = "src"}]
